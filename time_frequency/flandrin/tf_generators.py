@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 
 import numpy as np
-from math import pi
+from math import pi, sqrt
 
 def fmlin(N,fnormi=0.0,fnormf=0.5,t0=None):
     
@@ -24,4 +24,18 @@ def fmlin(N,fnormi=0.0,fnormf=0.5,t0=None):
         
         iflaw = np.linspace(fnormi, fnormf, N)
     
-    return y.T, iflaw
+    return y.reshape((len(y),1)), iflaw
+
+def amgauss(N, t0=None, T=None):
+    
+    if not t0:
+        t0 = N/2
+    if not T:
+        T = 2*sqrt(N)
+    
+    if N <= 0:
+        raise TypeError("N must be >= 1")
+    else:
+        tmt0 = np.arange(N) - t0
+        y = np.exp(-(tmt0/T)**2*pi)
+        return y.reshape((len(y),1))
